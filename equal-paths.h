@@ -28,8 +28,6 @@ struct Node {
  * @param root Pointer to the root of the tree to check for equal paths
  */
 
-bool depthCheck(Node* root, int currDepth, int& pathDepth);
-
 bool equalPaths(Node * root);
 
 #endif
