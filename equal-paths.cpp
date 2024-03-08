@@ -8,31 +8,27 @@ using namespace std;
 
 
 // You may add any prototypes of helper functions here
-int getHeight(Node* root){
-    if(root == nullptr){
-        return 0;
-    }
-    int leftHeight = getHeight(root->left);
-    int rightHeight = getHeight(root->right);
-    if(leftHeight > rightHeight){
-        return 1 + leftHeight;
-    }else{
-        return 1 + rightHeight;
-    }
-}
-
-bool equalPaths(Node * root)
-{
-    // Add your code below
+bool depthCheck(Node* root, int currDepth, int& pathDepth){
+    // Base case
     if(root == nullptr){
         return true;
     }
-    if(getHeight(root->left) == getHeight(root->right)){
-        Node* left_node = root->left;
-        Node* right_node = root->right;
-        return equalPaths(left_node) && equalPaths(right_node);
-    }else{
-        return false;
+    // Case 1: root is a leaf node
+    if(root->left == nullptr and root->right == nullptr){
+        if(pathDepth == -1){ // if no paths checked yet
+            pathDepth = currDepth;
+            return true;
+        }
+        // or not check if depth matches other pathDepths
+        return pathDepth == currDepth;
     }
+    // Case 2: if not a leaf node check both left and right nodes
+    return depthCheck(root->left, currDepth + 1, pathDepth) and depthCheck(root->right, currDepth + 1, pathDepth);
+}
+bool equalPaths(Node * root)
+{
+    // Add your code below
+    int pathDepth = -1;
+    return depthCheck(root, 1, pathDepth);
 }
 
