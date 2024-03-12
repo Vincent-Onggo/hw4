@@ -649,7 +649,7 @@ bool BinarySearchTree<Key, Value>::isBalanced() const
     //If all nodes are balanced return true!
 }
 template<typename Key, typename Value>
-int getHeight(Node<Key, Value>* root){
+int BinarySearchTree<Key, Value>::getHeight(Node<Key, Value>* root) const{
     if(root == nullptr){
         return 0;
     }
