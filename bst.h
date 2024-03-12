@@ -248,8 +248,7 @@ protected:
 
     // Add helper functions here
     void clearNode(Node<Key,Value>* node);
-    int getHeight(Node<Key,Value>* root) const;
-
+    int checkSub(Node<Key, Value>* node) const;
 protected:
     Node<Key, Value>* root_;
     // You should not need other data members
@@ -631,30 +630,28 @@ template<typename Key, typename Value>
 bool BinarySearchTree<Key, Value>::isBalanced() const
 {
     // TODO
-    //Get the heights of the left and right subtrees - helper func?
-    //Determine if this node is balanced! If not ret false!
-    if(root_ == nullptr){
-        return true;
-    }
-    int leftHeight = getHeight(root_->getLeft());
-    int rightHeight = getHeight(root_->getRight());
-    //Check if there are subtrees under us
-    //Are they balanced?
-    if(abs(leftHeight-rightHeight) > 1){
-        return false;
-    }else{
-        return isBalanced(root_->getLeft()) && isBalanced(root_->getRight());
+    return checkBalance(root_) != -1;
+}
+
+template<typename Key, typename Value>
+int BinarySearchTree<Key, Value>::checkSub(Node<Key, Value>* node) const {
+    if (node == nullptr) {
+        return 0; // Height of an empty tree is 0
     }
 
-    //If all nodes are balanced return true!
-}
-template<typename Key, typename Value>
-int BinarySearchTree<Key, Value>::getHeight(Node<Key, Value>* root) const{
-    if(root == nullptr){
-        return 0;
+    // check left subtree
+    int leftHeight = checkSub(node->getLeft());
+    if (leftHeight == -1) return -1;
+
+    // check right subtree
+    int rightHeight = checkSub(node->getRight());
+    if (rightHeight == -1) return -1;
+
+    // check the head node
+    if (abs(leftHeight - rightHeight) > 1) {
+        return -1;
     }
-    int leftHeight = getHeight(root->getLeft());
-    int rightHeight = getHeight(root->getRight());
+
     return 1 + std::max(leftHeight, rightHeight);
 }
 
