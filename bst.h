@@ -248,6 +248,7 @@ protected:
 
     // Add helper functions here
     void clearNode(Node<Key,Value>* node);
+    int getHeight(Node<Key,Value>* root);
 
 protected:
     Node<Key, Value>* root_;
@@ -267,6 +268,7 @@ template<class Key, class Value>
 BinarySearchTree<Key, Value>::iterator::iterator(Node<Key,Value> *ptr)
 {
     // TODO
+    current_ = ptr;
 
 }
 
@@ -277,6 +279,7 @@ template<class Key, class Value>
 BinarySearchTree<Key, Value>::iterator::iterator() 
 {
     // TODO
+    current_ = nullptr;
 
 }
 
@@ -309,7 +312,8 @@ bool
 BinarySearchTree<Key, Value>::iterator::operator==(
     const BinarySearchTree<Key, Value>::iterator& rhs) const
 {
-    // TODO
+    //
+    return current_ == rhs.current_;
 }
 
 /**
@@ -322,6 +326,7 @@ BinarySearchTree<Key, Value>::iterator::operator!=(
     const BinarySearchTree<Key, Value>::iterator& rhs) const
 {
     // TODO
+    return current_ != rhs.current_;
 
 }
 
@@ -334,7 +339,21 @@ typename BinarySearchTree<Key, Value>::iterator&
 BinarySearchTree<Key, Value>::iterator::operator++()
 {
     // TODO
-
+    if(current_ == nullptr){ // check if current is a nullptr
+        return *this;
+    }
+    if(current_->getRight() != nullptr){
+        current_ = current_->getRight();
+        while(current_->getLeft() != nullptr){
+            current_ = current_->getLeft();
+        }
+    }else {
+        while (current_->getParent() != nullptr and current_ == current_->getParent()->getRight()) {
+            current_ = current_->getParent();
+        }
+        current_ = current_->getParent();
+    }
+    return *this;
 }
 
 
@@ -612,7 +631,31 @@ template<typename Key, typename Value>
 bool BinarySearchTree<Key, Value>::isBalanced() const
 {
     // TODO
+    //Get the heights of the left and right subtrees - helper func?
+    //Determine if this node is balanced! If not ret false!
+    if(root_ == nullptr){
+        return true;
+    }
+    int leftHeight = getHeight(root_->left);
+    int rightHeight = getHeight(root_->right);
+    //Check if there are subtrees under us
+    //Are they balanced?
+    if(abs(leftHeight-rightHeight) > 1){
+        return false;
+    }else{
+        return isBalanced(root_->left) && isBalanced(root_->right);
+    }
 
+    //If all nodes are balanced return true!
+}
+template<typename Key, typename Value>
+int getHeight(Node<Key, Value>* root){
+    if(root == nullptr){
+        return 0;
+    }
+    int leftHeight = getHeight(root->left);
+    int rightHeight = getHeight(root->right);
+    return 1 + std::max(leftHeight, rightHeight);
 }
 
 
