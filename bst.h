@@ -636,14 +636,14 @@ bool BinarySearchTree<Key, Value>::isBalanced() const
     if(root_ == nullptr){
         return true;
     }
-    int leftHeight = getHeight(root_->left);
-    int rightHeight = getHeight(root_->right);
+    int leftHeight = getHeight(root_->getLeft());
+    int rightHeight = getHeight(root_->getRight());
     //Check if there are subtrees under us
     //Are they balanced?
     if(abs(leftHeight-rightHeight) > 1){
         return false;
     }else{
-        return isBalanced(root_->left) && isBalanced(root_->right);
+        return isBalanced(root_->getLeft()) && isBalanced(root_->getRight());
     }
 
     //If all nodes are balanced return true!
