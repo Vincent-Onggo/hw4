@@ -248,7 +248,7 @@ protected:
 
     // Add helper functions here
     void clearNode(Node<Key,Value>* node);
-    int getHeight(Node<Key,Value>* root);
+    int getHeight(Node<Key,Value>* root) const;
 
 protected:
     Node<Key, Value>* root_;
