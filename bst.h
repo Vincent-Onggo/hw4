@@ -653,8 +653,8 @@ int getHeight(Node<Key, Value>* root){
     if(root == nullptr){
         return 0;
     }
-    int leftHeight = getHeight(root->left);
-    int rightHeight = getHeight(root->right);
+    int leftHeight = getHeight(root->getLeft());
+    int rightHeight = getHeight(root->getRight());
     return 1 + std::max(leftHeight, rightHeight);
 }
 
