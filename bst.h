@@ -449,16 +449,16 @@ void BinarySearchTree<Key, Value>::insert(const std::pair<const Key, Value> &key
     // TODO
     Node<Key, Value>* newNode = new Node<Key, Value>(keyValuePair);
     if(root_ == nullptr) {  // when tree is empty
-        root_ = keyValuePair;
+        root_ = newNode;
     }else{
         Node<Key, Value>* curr = root_;
         Node<Key, Value>* parent = nullptr;
         while(curr != nullptr){
             parent = curr;
             if(keyValuePair.first < curr->getKey()){
-                curr = curr->left; // move left
+                curr = curr->getLeft(); // move left
             } else if(keyValuePair.first > curr->getKey()){
-                curr = curr->right;
+                curr = curr->getRight();
             }else{
                 curr->setValue(keyValuePair.second);
                 delete newNode;
