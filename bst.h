@@ -526,7 +526,10 @@ void BinarySearchTree<Key, Value>::remove(const Key& key)
             }
         }
         std::cout << "fuck up 1" << std::endl;
-        clearNode(toRemove);
+        if(toRemove == root_){
+            root_ = nullptr;
+        }
+        delete toRemove;
     }else if(toRemove->getRight() != nullptr){ // if node has a right child
         std::cout << "Ran1" << std::endl;
         Node<Key, Value>* parent = toRemove->getParent();
@@ -539,19 +542,28 @@ void BinarySearchTree<Key, Value>::remove(const Key& key)
                 toRemove->getLeft()->setParent(nullptr);
             }
             std::cout << "Removed: " << toRemove->getKey() << std::endl;
-            clearNode(toRemove);
+            if(toRemove == root_){
+                root_ = nullptr;
+            }
+            delete toRemove;
         }else if(parent->getLeft() == toRemove){ // if to remove is a left child
             std::cout << "Ran2" << std::endl;
             parent->setLeft(toRemove->getRight());
             toRemove->getRight()->setParent(parent);
             std::cout << "fuck up 2" << std::endl;
-            clearNode(toRemove);
+            if (toRemove == root_){
+                root_ = nullptr;
+            }
+            delete toRemove;
         }else if(parent->getRight() == toRemove){
             std::cout << "Ran3" << std::endl;
             parent->setRight(toRemove->getRight());
             toRemove->getRight()->setParent(parent);
             std::cout << "fuck up 3" << std::endl;
-            clearNode(toRemove);
+            if(toRemove == root_){
+                root_ = nullptr;
+            }
+            delete toRemove;
         }
 
     }else if(toRemove->getLeft() != nullptr){
@@ -564,7 +576,10 @@ void BinarySearchTree<Key, Value>::remove(const Key& key)
             toRemove->getLeft()->setParent(parent);
         }
         std::cout << "fuck up 4" << std::endl;
-        clearNode(toRemove);
+        if(toRemove == root_){
+            root_ = nullptr;
+        }
+        delete toRemove;
     }
 
 }
