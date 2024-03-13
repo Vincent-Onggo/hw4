@@ -506,7 +506,7 @@ void BinarySearchTree<Key, Value>::remove(const Key& key)
     // TODO
     // find the node to be removed
     Node<Key, Value>* toRemove = internalFind(key);
-
+    Node<Key, Value>* parent = toRemove->getParent();
     // if not found -> do nothing
     if(toRemove == nullptr){
         return;
@@ -517,7 +517,6 @@ void BinarySearchTree<Key, Value>::remove(const Key& key)
     }
     // if node has no children
     if(toRemove->getLeft() == nullptr and toRemove->getRight() == nullptr){
-        Node<Key, Value>* parent = toRemove->getParent();
         if(parent != nullptr){ // fixing parent pointers
             if(toRemove == parent->getLeft()){
                 parent->setLeft(nullptr);
@@ -527,11 +526,23 @@ void BinarySearchTree<Key, Value>::remove(const Key& key)
         }
         clearNode(toRemove);
     }else if(toRemove->getRight() != nullptr){ // if node has a right child
-        nodeSwap(toRemove->getRight(), toRemove);
-        clearNode(toRemove->getRight());
+        if(parent->getLeft() == toRemove and parent != nullptr){ // if to remove is a left child
+            parent->setLeft(toRemove->getRight());
+            toRemove->getRight()->setParent(parent);
+        }else{
+            parent->setRight(toRemove->getRight());
+            toRemove->getRight()->setParent(parent);
+        }
+        clearNode(toRemove);
     }else if(toRemove->getLeft() != nullptr){
-        nodeSwap(toRemove->getLeft(), toRemove);
-        clearNode(toRemove->getLeft());
+        if(parent->getLeft() == toRemove and parent != nullptr){ // if to remove is a left child
+            parent->setLeft(toRemove->getLeft());
+            toRemove->getLeft()->setParent(parent);
+        }else{
+            parent->setRight(toRemove->getLeft());
+            toRemove->getLeft()->setParent(parent);
+        }
+        clearNode(toRemove);
     }
 
 }
