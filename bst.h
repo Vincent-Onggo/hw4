@@ -531,13 +531,10 @@ void BinarySearchTree<Key, Value>::remove(const Key& key)
         delete toRemove;
     }else if(toRemove->getRight() != nullptr){ // if node has a right child
         Node<Key, Value>* parent = toRemove->getParent();
-        if(parent == nullptr){
+        if(parent == nullptr){ // if toRemove is a root
             if(toRemove->getRight() != nullptr){
                 root_ = toRemove->getRight();
                 toRemove->getRight()->setParent(nullptr);
-            }else if(toRemove->getLeft() != nullptr){
-                root_ = toRemove->getLeft();
-                toRemove->getLeft()->setParent(nullptr);
             }
             if(toRemove == root_){
                 root_ = nullptr;
@@ -562,13 +559,9 @@ void BinarySearchTree<Key, Value>::remove(const Key& key)
     }else if(toRemove->getLeft() != nullptr){
         Node<Key, Value>* parent = toRemove->getParent();
         if(parent == nullptr){
-            if(toRemove->getRight() != nullptr){
-                root_ = toRemove->getRight();
-                toRemove->getRight()->setParent(nullptr);
-            }else if(toRemove->getLeft() != nullptr){
-                root_ = toRemove->getLeft();
-                toRemove->getLeft()->setParent(nullptr);
-            }
+            root_ = toRemove->getLeft();
+            toRemove->getLeft()->setParent(nullptr);
+
             if(toRemove == root_){
                 root_ = nullptr;
             }
