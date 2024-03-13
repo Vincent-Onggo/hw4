@@ -525,6 +525,7 @@ void BinarySearchTree<Key, Value>::remove(const Key& key)
                 parent->setRight(nullptr);
             }
         }
+        std::cout << "fuck up 1" << std::endl;
         clearNode(toRemove);
     }else if(toRemove->getRight() != nullptr){ // if node has a right child
         std::cout << "Ran1" << std::endl;
@@ -543,11 +544,13 @@ void BinarySearchTree<Key, Value>::remove(const Key& key)
             std::cout << "Ran2" << std::endl;
             parent->setLeft(toRemove->getRight());
             toRemove->getRight()->setParent(parent);
+            std::cout << "fuck up 2" << std::endl;
             clearNode(toRemove);
         }else if(parent->getRight() == toRemove){
             std::cout << "Ran3" << std::endl;
             parent->setRight(toRemove->getRight());
             toRemove->getRight()->setParent(parent);
+            std::cout << "fuck up 3" << std::endl;
             clearNode(toRemove);
         }
 
@@ -560,6 +563,7 @@ void BinarySearchTree<Key, Value>::remove(const Key& key)
             parent->setRight(toRemove->getLeft());
             toRemove->getLeft()->setParent(parent);
         }
+        std::cout << "fuck up 4" << std::endl;
         clearNode(toRemove);
     }
 
