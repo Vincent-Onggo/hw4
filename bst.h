@@ -511,32 +511,29 @@ void BinarySearchTree<Key, Value>::remove(const Key& key)
     if(toRemove == nullptr){
         return;
     }
-
-    if(toRemove->getLeft() != nullptr and toRemove->getRight() != nullptr){ // if two children
-        Node<Key, Value>* pred = toRemove->getLeft();
-        while(pred->getRight() != nullptr){
-            pred = pred->getRight();
+    // if node has two children
+    if(toRemove->getLeft() != nullptr and toRemove->getRight()!= nullptr){
+        nodeSwap(predecessor(toRemove), toRemove);
+    }
+    // if node has no children
+    if(toRemove->getLeft() == nullptr and toRemove->getRight() == nullptr){
+        Node<Key, Value> parent = toRemove->getParent();
+        if(parent != nullptr){ // fixing parent pointers
+            if(toRemove == parent.getLeft()){
+                parent.setLeft(nullptr);
+            }else if(toRemove == parent.getRight()){
+                parent.setRight(nullptr);
+            }
         }
-        nodeSwap(toRemove, pred); // swap nodes
+        delete toRemove;
+    }else if(toRemove->getRight() != nullptr){ // if node has a right child
+        nodeSwap(toRemove->getRight(), toRemove);
+        delete toRemove;
+    }else if(toRemove->getLeft() != nullptr){
+        nodeSwap(toRemove->getLeft(), toRemove);
+        delete toRemove;
     }
 
-    Node<Key, Value>* child = nullptr;
-    if(toRemove->getRight() != nullptr){
-        child = toRemove->getRight();
-    }else if(toRemove->getLeft() != nullptr){
-        child = toRemove->getLeft();
-    }
-    if(child != nullptr){
-        child->setParent(toRemove->getParent());
-    }
-    if(toRemove->getParent() == nullptr){ // if node is the head node
-        root_ = child;
-    }else if(toRemove == toRemove->getParent()->getLeft()){ // if node is a left child
-        toRemove->getParent()->setLeft(child);
-    }else{ // if node is a right child
-        toRemove->getParent()->setRight(child);
-    }
-    delete toRemove;
 }
 
 
@@ -546,17 +543,17 @@ Node<Key, Value>*
 BinarySearchTree<Key, Value>::predecessor(Node<Key, Value>* current)
 {
     // TODO
-    Node<Key, Value> pred;
+    Node<Key, Value>* pred;
     if(current->getLeft() != nullptr){ // if node has a left child
         pred = current->getLeft();
-        while(pred.getRight() != nullptr and pred != nullptr){
-            pred = pred.getRight();
+        while(pred->getRight() != nullptr and pred != nullptr){
+            pred = pred->getRight();
         }
     }else{ // if no left child
         pred = current->getParent();
-        while(pred != nullptr and pred.getParent() != nullptr){
-            pred = pred.getParent();
-            if(pred.getRight() != nullptr){
+        while(pred != nullptr and pred->getParent() != nullptr){
+            pred = pred->getParent();
+            if(pred->getRight() != nullptr){
                 break;
             }
         }
