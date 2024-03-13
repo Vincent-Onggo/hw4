@@ -525,13 +525,13 @@ void BinarySearchTree<Key, Value>::remove(const Key& key)
                 parent->setRight(nullptr);
             }
         }
-        delete toRemove;
+        clearNode(toRemove);
     }else if(toRemove->getRight() != nullptr){ // if node has a right child
         nodeSwap(toRemove->getRight(), toRemove);
-        delete toRemove;
+        clearNode(toRemove);
     }else if(toRemove->getLeft() != nullptr){
         nodeSwap(toRemove->getLeft(), toRemove);
-        delete toRemove;
+        clearNode(toRemove);
     }
 
 }
