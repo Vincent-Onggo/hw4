@@ -517,7 +517,6 @@ void BinarySearchTree<Key, Value>::remove(const Key& key)
     }
     // if node has no children
     if(toRemove->getLeft() == nullptr and toRemove->getRight() == nullptr){
-        std::cout << "RAN" << std::endl;
         Node<Key, Value>* parent = toRemove->getParent();
         if(parent != nullptr){ // fixing parent pointers
             if(toRemove == parent->getLeft()){
@@ -526,15 +525,13 @@ void BinarySearchTree<Key, Value>::remove(const Key& key)
                 parent->setRight(nullptr);
             }
         }
-        std::cout << "RAN1" << std::endl;
         clearNode(toRemove);
-        std::cout << "RAN2" << std::endl;
     }else if(toRemove->getRight() != nullptr){ // if node has a right child
         nodeSwap(toRemove->getRight(), toRemove);
-        clearNode(toRemove);
+        clearNode(toRemove->getRight());
     }else if(toRemove->getLeft() != nullptr){
         nodeSwap(toRemove->getLeft(), toRemove);
-        clearNode(toRemove);
+        clearNode(toRemove->getLeft());
     }
 
 }
