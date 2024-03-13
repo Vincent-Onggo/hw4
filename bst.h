@@ -517,12 +517,12 @@ void BinarySearchTree<Key, Value>::remove(const Key& key)
     }
     // if node has no children
     if(toRemove->getLeft() == nullptr and toRemove->getRight() == nullptr){
-        Node<Key, Value> parent = toRemove->getParent();
+        Node<Key, Value>* parent = toRemove->getParent();
         if(parent != nullptr){ // fixing parent pointers
-            if(toRemove == parent.getLeft()){
-                parent.setLeft(nullptr);
-            }else if(toRemove == parent.getRight()){
-                parent.setRight(nullptr);
+            if(toRemove == parent->getLeft()){
+                parent->setLeft(nullptr);
+            }else if(toRemove == parent->getRight()){
+                parent->setRight(nullptr);
             }
         }
         delete toRemove;
