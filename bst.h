@@ -531,7 +531,7 @@ void BinarySearchTree<Key, Value>::remove(const Key& key)
         if(parent->getLeft() == toRemove and parent != nullptr){ // if to remove is a left child
             parent->setLeft(toRemove->getRight());
             toRemove->getRight()->setParent(parent);
-        }else{
+        }else if(parent->getRight() == toRemove and parent != nullptr){
             parent->setRight(toRemove->getRight());
             toRemove->getRight()->setParent(parent);
         }
