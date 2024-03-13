@@ -527,11 +527,14 @@ void BinarySearchTree<Key, Value>::remove(const Key& key)
         }
         clearNode(toRemove);
     }else if(toRemove->getRight() != nullptr){ // if node has a right child
+        std::cout << "Ran1" << std::endl;
         Node<Key, Value>* parent = toRemove->getParent();
         if(parent->getLeft() == toRemove and parent != nullptr){ // if to remove is a left child
+            std::cout << "Ran2" << std::endl;
             parent->setLeft(toRemove->getRight());
             toRemove->getRight()->setParent(parent);
         }else if(parent->getRight() == toRemove and parent != nullptr){
+            std::cout << "Ran3" << std::endl;
             parent->setRight(toRemove->getRight());
             toRemove->getRight()->setParent(parent);
         }
