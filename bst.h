@@ -526,7 +526,9 @@ void BinarySearchTree<Key, Value>::remove(const Key& key)
                 parent->setRight(nullptr);
             }
         }
+        std::cout << "RAN1" << std::endl;
         clearNode(toRemove);
+        std::cout << "RAN2" << std::endl;
     }else if(toRemove->getRight() != nullptr){ // if node has a right child
         nodeSwap(toRemove->getRight(), toRemove);
         clearNode(toRemove);
