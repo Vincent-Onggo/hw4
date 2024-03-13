@@ -525,13 +525,11 @@ void BinarySearchTree<Key, Value>::remove(const Key& key)
                 parent->setRight(nullptr);
             }
         }
-        std::cout << "fuck up 1" << std::endl;
         if(toRemove == root_){
             root_ = nullptr;
         }
         delete toRemove;
     }else if(toRemove->getRight() != nullptr){ // if node has a right child
-        std::cout << "Ran1" << std::endl;
         Node<Key, Value>* parent = toRemove->getParent();
         if(parent == nullptr){
             if(toRemove->getRight() != nullptr){
@@ -541,25 +539,20 @@ void BinarySearchTree<Key, Value>::remove(const Key& key)
                 root_ = toRemove->getLeft();
                 toRemove->getLeft()->setParent(nullptr);
             }
-            std::cout << "Removed: " << toRemove->getKey() << std::endl;
             if(toRemove == root_){
                 root_ = nullptr;
             }
             delete toRemove;
         }else if(parent->getLeft() == toRemove){ // if to remove is a left child
-            std::cout << "Ran2" << std::endl;
             parent->setLeft(toRemove->getRight());
             toRemove->getRight()->setParent(parent);
-            std::cout << "fuck up 2" << std::endl;
             if (toRemove == root_){
                 root_ = nullptr;
             }
             delete toRemove;
         }else if(parent->getRight() == toRemove){
-            std::cout << "Ran3" << std::endl;
             parent->setRight(toRemove->getRight());
             toRemove->getRight()->setParent(parent);
-            std::cout << "fuck up 3" << std::endl;
             if(toRemove == root_){
                 root_ = nullptr;
             }
@@ -568,14 +561,25 @@ void BinarySearchTree<Key, Value>::remove(const Key& key)
 
     }else if(toRemove->getLeft() != nullptr){
         Node<Key, Value>* parent = toRemove->getParent();
-        if(parent->getLeft() == toRemove and parent != nullptr){ // if to remove is a left child
+        if(parent == nullptr){
+            if(toRemove->getRight() != nullptr){
+                root_ = toRemove->getRight();
+                toRemove->getRight()->setParent(nullptr);
+            }else if(toRemove->getLeft() != nullptr){
+                root_ = toRemove->getLeft();
+                toRemove->getLeft()->setParent(nullptr);
+            }
+            if(toRemove == root_){
+                root_ = nullptr;
+            }
+            delete toRemove;
+        }else if(parent->getLeft() == toRemove and parent != nullptr){ // if to remove is a left child
             parent->setLeft(toRemove->getLeft());
             toRemove->getLeft()->setParent(parent);
         }else{
             parent->setRight(toRemove->getLeft());
             toRemove->getLeft()->setParent(parent);
         }
-        std::cout << "fuck up 4" << std::endl;
         if(toRemove == root_){
             root_ = nullptr;
         }
