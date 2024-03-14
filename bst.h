@@ -338,19 +338,20 @@ typename BinarySearchTree<Key, Value>::iterator&
 BinarySearchTree<Key, Value>::iterator::operator++()
 {
     // TODO
-    if(current_ == nullptr){ // check if current is a nullptr
-        return *this;
-    }
-    if(current_->getRight() != nullptr){
+    // If right child exists, go to right child then all the way left
+    if (current_->getRight() != nullptr) {
         current_ = current_->getRight();
-        while(current_->getLeft() != nullptr){
+        while (current_->getLeft() != nullptr) {
             current_ = current_->getLeft();
         }
-    }else {
-        while (current_->getParent() != nullptr and current_ == current_->getParent()->getRight()) {
-            current_ = current_->getParent();
+    } else {
+        // Go up until we're coming from left
+        Node<Key, Value>* tmp = current_->getParent();
+        while (tmp != nullptr && current_ == tmp->getRight()) {
+            current_ = tmp;
+            tmp = tmp->getParent();
         }
-        current_ = current_->getParent();
+        current_ = tmp;
     }
     return *this;
 }
@@ -490,8 +491,6 @@ void BinarySearchTree<Key, Value>::insert(const std::pair<const Key, Value> &key
         }
         newNode->setParent(parent);
     }
-
-
 }
 
 
@@ -583,30 +582,6 @@ void BinarySearchTree<Key, Value>::remove(const Key& key)
         }
 
     }
-
-//    else if(toRemove->getLeft() != nullptr){
-//        Node<Key, Value>* parent = toRemove->getParent();
-//        if(parent == nullptr){
-//            root_ = toRemove->getLeft();
-//            toRemove->getLeft()->setParent(nullptr);
-//
-//            if(toRemove == root_){
-//                root_ = nullptr;
-//            }
-//            delete toRemove;
-//        }else if(parent->getLeft() == toRemove){ // if to remove is a left child
-//            parent->setLeft(toRemove->getLeft());
-//            toRemove->getLeft()->setParent(parent);
-//        }else{
-//            parent->setRight(toRemove->getLeft());
-//            toRemove->getLeft()->setParent(parent);
-//        }
-//        if(toRemove == root_){
-//            root_ = nullptr;
-//        }
-//        delete toRemove;
-//    }
-
 }
 
 
@@ -667,8 +642,11 @@ BinarySearchTree<Key, Value>::getSmallestNode() const
 {
     // TODO
     // traverse to the left most node
-    Node<Key, Value>* curr;
-    while(curr->getLeft() != nullptr and curr != nullptr){
+    if(root_ == nullptr){
+        return nullptr;
+    }
+    Node<Key, Value>* curr = root_;
+    while (curr->getLeft() != nullptr) {
         curr = curr->getLeft();
     }
     return curr;
