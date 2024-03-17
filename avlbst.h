@@ -214,8 +214,8 @@ void AVLTree<Key, Value>::rotateLeft(AVLNode<Key, Value> *node) {
 
     // set child pointers
     AVLNode<Key, Value>* a = gParent->getLeft();
-    AVLNode<Key, Value>* b = parent->getRight();
-    AVLNode<Key, Value>* c = node->getRight();
+    AVLNode<Key, Value>* b = parent->getLeft();
+    AVLNode<Key, Value>* c = node->getLeft();
     AVLNode<Key, Value>* d = node->getRight();
 
     // performing rotation
@@ -288,8 +288,8 @@ void  AVLTree<Key, Value>::insertFix(AVLNode<Key, Value>* parent, AVLNode<Key, V
                 parent->setBalance(0);
                 gParent->setBalance(0);
             }else{ // zig zag
-                rotateLeft(parent);
-                rotateRight(gParent);
+                rotateLeft(node);
+                rotateRight(parent);
                 if(node->getBalance() == -1){
                     parent->setBalance(0);
                     gParent->updateBalance(1);
@@ -305,6 +305,35 @@ void  AVLTree<Key, Value>::insertFix(AVLNode<Key, Value>* parent, AVLNode<Key, V
                 }
             }
 ;        }
+    }else{
+        gParent->updateBalance(1);
+        if(gParent->getBalance() == 0){
+            return;
+        }else if(gParent->getBalance() == 1){
+            insertFix(gParent, parent);
+        }else if(gParent->getBalance() == 2){
+            if(parent->getRight() == node){ // if zig zig
+                rotateLeft(node);
+                parent->setBalance(0);
+                gParent->setBalance(0);
+            }else{ // zig zag
+                rotateRight(node);
+                rotateLeft(parent);
+                if(node->getBalance() == 1){
+                    parent->setBalance(0);
+                    gParent->updateBalance(-1);
+                    node->setBalance(0);
+                }else if(node->getBalance() == 0){
+                    parent->setBalance(0);
+                    gParent->setBalance(0);
+                    node->setBalance(0);
+                }else if(node->getBalance() == -1){
+                    parent->setBalance(1);
+                    gParent->setBalance(0);
+                    node->setBalance(0);
+                }
+            }
+            ;        }
     }
 
 }
