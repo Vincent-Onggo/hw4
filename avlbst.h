@@ -146,7 +146,7 @@ protected:
 };
 
 /*
- * Recall: If key is already in the tree, you should 
+ * Recall: If key is already in the tree, you should
  * overwrite the current value with the updated value.
  */
 template<class Key, class Value>
@@ -208,7 +208,8 @@ void AVLTree<Key, Value>::rotateLeft(AVLNode<Key, Value> *node) {
         return;
     }
     AVLNode<Key, Value>* gParent = parent->getParent();
-    if(gParent == nullptr or gParent->getRight() != parent){
+    if(gParent == nullptr){
+        std::cout << "Failed here\n";
         return;
     }
 
@@ -288,6 +289,9 @@ void  AVLTree<Key, Value>::insertFix(AVLNode<Key, Value>* parent, AVLNode<Key, V
                 parent->setBalance(0);
                 gParent->setBalance(0);
             }else{ // zig zag
+                std::cout << "Here\n";
+                std::cout << "Rotating left node: " << node->getKey() << "\n";
+                this->print();
                 rotateLeft(node);
                 rotateRight(parent);
                 if(node->getBalance() == -1){
