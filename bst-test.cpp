@@ -49,9 +49,15 @@ int main(int argc, char *argv[])
 
     AVLTree<uint16_t, uint16_t> testTree;
 
-    testTree.insert(std::make_pair(0, 9));
-    testTree.insert(std::make_pair(2, 8));
-    testTree.insert(std::make_pair(1, 159));
+    testTree.insert(std::make_pair(12, 9));
+    testTree.insert(std::make_pair(8, 8));
+    testTree.insert(std::make_pair(18, 159));
+    testTree.insert(std::make_pair(5, 159));
+    testTree.insert(std::make_pair(4, 159));
+    testTree.insert(std::make_pair(11, 159));
+    testTree.insert(std::make_pair(17, 159));
+
+
     testTree.print();
 
     return 0;

@@ -158,121 +158,182 @@ int AVLTree<Key, Value>::getHeight(AVLNode<Key, Value>* root){
     int rightHeight = getHeight(root->getRight());
     return 1 + std::max(leftHeight, rightHeight);
 }
-
+//
+//template<class Key, class Value>
+//void AVLTree<Key, Value>::rotateRight(AVLNode<Key, Value> *node) {
+//    // check that all nodes exist and structure is correct
+//    if(node == nullptr){
+//        return;
+//    }
+//    AVLNode<Key, Value>* parent = node->getParent();
+//    if(parent == nullptr){
+//        return;
+//    }
+//    AVLNode<Key, Value>* gParent = parent->getParent();
+//    if(gParent == nullptr){
+//        return;
+//    }
+//    if(gParent->getLeft() == parent and parent->getLeft() == node){ // zig zig (left left)
+//        // set child pointers
+//
+//        AVLNode<Key, Value>* a = node->getLeft();
+//        AVLNode<Key, Value>* b = node->getRight();
+//        AVLNode<Key, Value>* c = parent->getRight();
+//        AVLNode<Key, Value>* d = gParent->getRight();
+//
+//        // performing rotation
+//        nodeSwap(parent, gParent);
+//        nodeSwap(node, gParent);
+//        parent->setRight(gParent);
+//        gParent->setParent(parent);
+//        node->setLeft(a);
+//        node->setRight(b);
+//        gParent->setLeft(c);
+//        gParent->setRight(d);
+//        if(a != nullptr) a->setParent(node);
+//        if(b != nullptr) b->setParent(node);
+//        if(c != nullptr) c->setParent(gParent);
+//        if(d != nullptr) d->setParent(gParent);
+//    }else if(gParent->getRight() == parent and parent->getLeft() == node){ // zig zag right left
+//        // set child pointers
+//        AVLNode<Key, Value>* b = parent->getRight();
+//        AVLNode<Key, Value>* c = node->getLeft();
+//        AVLNode<Key, Value>* d = node->getRight();
+//
+//        // performing rotation
+//        nodeSwap(node, parent);
+//        node->setRight(parent);
+//        parent->setParent(node);
+//
+//        node->setLeft(c);
+//        parent->setLeft(d);
+//        parent->setRight(b);
+//
+//        if(b != nullptr) b->setParent(parent);
+//        if(c != nullptr) c->setParent(node);
+//        if(d != nullptr) d->setParent(parent);
+//        this->print();
+//    }
+//
+//}
+//
+//template<class Key, class Value>
+//void AVLTree<Key, Value>::rotateLeft(AVLNode<Key, Value> *node) {
+//    // check that all nodes exist and structure is correct
+//
+//    if(node == nullptr){
+//        return;
+//    }
+//    AVLNode<Key, Value>* parent = node->getParent();
+//    if(parent == nullptr){
+//        return;
+//    }
+//    AVLNode<Key, Value>* gParent = parent->getParent();
+//    if(gParent == nullptr){
+//        return;
+//    }
+//    if(gParent->getRight() == parent and parent->getRight() == node){ // zig zig (right-right)
+//
+//        // set child pointers
+//        AVLNode<Key, Value>* a = gParent->getLeft();
+//        AVLNode<Key, Value>* b = parent->getLeft();
+//        AVLNode<Key, Value>* c = node->getLeft();
+//        AVLNode<Key, Value>* d = node->getRight();
+//
+//        // performing rotation
+//        nodeSwap(parent, gParent);
+//        nodeSwap(node, gParent);
+//        parent->setLeft(gParent);
+//        gParent->setParent(parent);
+//        node->setLeft(c);
+//        node->setRight(d);
+//        gParent->setLeft(a);
+//        gParent->setRight(b);
+//        if(a != nullptr) a->setParent(gParent);
+//        if(b != nullptr) b->setParent(gParent);
+//        if(c != nullptr) c->setParent(node);
+//        if(d != nullptr) d->setParent(node);
+//
+//    }else if(gParent->getLeft() == parent and parent->getRight() == node){ // zig zag (left-right)
+//        // set child pointers
+//        AVLNode<Key, Value>* b = parent->getLeft();
+//        AVLNode<Key, Value>* c = node->getLeft();
+//        AVLNode<Key, Value>* d = node->getRight();
+//
+//        // performing rotation
+//        nodeSwap(parent, node);
+//        node->setLeft(parent);
+//        parent->setParent(node);
+//        node->setRight(d);
+//        parent->setLeft(b);
+//        parent->setRight(c);
+//        if(b != nullptr) b->setParent(parent);
+//        if(c != nullptr) c->setParent(parent);
+//        if(d != nullptr) d->setParent(node);
+//    }
+//
+//}
 template<class Key, class Value>
-void AVLTree<Key, Value>::rotateRight(AVLNode<Key, Value> *node) {
-    // check that all nodes exist and structure is correct
-    if(node == nullptr){
+void AVLTree<Key, Value>::rotateRight(AVLNode<Key, Value>* node) {
+    if(node == nullptr || node->getLeft() == nullptr) {
         return;
     }
-    AVLNode<Key, Value>* parent = node->getParent();
-    if(parent == nullptr){
-        return;
-    }
-    AVLNode<Key, Value>* gParent = parent->getParent();
-    if(gParent == nullptr){
-        return;
-    }
-    if(gParent->getLeft() == parent and parent->getLeft() == node){ // zig zig (left left)
-        // set child pointers
 
-        AVLNode<Key, Value>* a = node->getLeft();
-        AVLNode<Key, Value>* b = node->getRight();
-        AVLNode<Key, Value>* c = parent->getRight();
-        AVLNode<Key, Value>* d = gParent->getRight();
+    AVLNode<Key, Value>* leftChild = node->getLeft();
+    node->setLeft(leftChild->getRight());
 
-        // performing rotation
-        nodeSwap(parent, gParent);
-        nodeSwap(node, gParent);
-        parent->setRight(gParent);
-        gParent->setParent(parent);
-        node->setLeft(a);
-        node->setRight(b);
-        gParent->setLeft(c);
-        gParent->setRight(d);
-        if(a != nullptr) a->setParent(node);
-        if(b != nullptr) b->setParent(node);
-        if(c != nullptr) c->setParent(gParent);
-        if(d != nullptr) d->setParent(gParent);
-    }else if(gParent->getRight() == parent and parent->getLeft() == node){ // zig zag right left
-        // set child pointers
-        AVLNode<Key, Value>* b = parent->getRight();
-        AVLNode<Key, Value>* c = node->getLeft();
-        AVLNode<Key, Value>* d = node->getRight();
-
-        // performing rotation
-        nodeSwap(node, parent);
-        node->setRight(parent);
-        parent->setParent(node);
-
-        node->setLeft(c);
-        parent->setLeft(d);
-        parent->setRight(b);
-
-        if(b != nullptr) b->setParent(parent);
-        if(c != nullptr) c->setParent(node);
-        if(d != nullptr) d->setParent(parent);
-        this->print();
+    if(leftChild->getRight() != nullptr) {
+        leftChild->getRight()->setParent(node);
     }
 
+    leftChild->setParent(node->getParent());
+
+    if(node->getParent() == nullptr) { // node is root
+        BinarySearchTree<Key, Value>::root_ = leftChild;
+    } else if(node == node->getParent()->getRight()) {
+        node->getParent()->setRight(leftChild);
+    } else {
+        node->getParent()->setLeft(leftChild);
+    }
+
+    leftChild->setRight(node);
+    node->setParent(leftChild);
+
+    // Update balance factors
+    node->setBalance(node->getBalance() + 1 - std::min((int)leftChild->getBalance(), 0));
+    leftChild->setBalance(leftChild->getBalance() + 1 + std::max((int)node->getBalance(), 0));
 }
 
 template<class Key, class Value>
-void AVLTree<Key, Value>::rotateLeft(AVLNode<Key, Value> *node) {
-    // check that all nodes exist and structure is correct
-
-    if(node == nullptr){
+void AVLTree<Key, Value>::rotateLeft(AVLNode<Key, Value>* node) {
+    if(node == nullptr || node->getRight() == nullptr) {
         return;
     }
-    AVLNode<Key, Value>* parent = node->getParent();
-    if(parent == nullptr){
-        return;
-    }
-    AVLNode<Key, Value>* gParent = parent->getParent();
-    if(gParent == nullptr){
-        return;
-    }
-    if(gParent->getRight() == parent and parent->getRight() == node){ // zig zig (right-right)
 
-        // set child pointers
-        AVLNode<Key, Value>* a = gParent->getLeft();
-        AVLNode<Key, Value>* b = parent->getLeft();
-        AVLNode<Key, Value>* c = node->getLeft();
-        AVLNode<Key, Value>* d = node->getRight();
+    AVLNode<Key, Value>* rightChild = node->getRight();
+    node->setRight(rightChild->getLeft());
 
-        // performing rotation
-        nodeSwap(parent, gParent);
-        nodeSwap(node, gParent);
-        parent->setLeft(gParent);
-        gParent->setParent(parent);
-        node->setLeft(c);
-        node->setRight(d);
-        gParent->setLeft(a);
-        gParent->setRight(b);
-        if(a != nullptr) a->setParent(gParent);
-        if(b != nullptr) b->setParent(gParent);
-        if(c != nullptr) c->setParent(node);
-        if(d != nullptr) d->setParent(node);
-    }else if(gParent->getLeft() == parent and parent->getRight() == node){ // zig zag (left-right)
-        // set child pointers
-        AVLNode<Key, Value>* b = parent->getLeft();
-        AVLNode<Key, Value>* c = node->getLeft();
-        AVLNode<Key, Value>* d = node->getRight();
-
-        // performing rotation
-        nodeSwap(parent, node);
-        node->setLeft(parent);
-        parent->setParent(node);
-        node->setRight(d);
-        parent->setLeft(b);
-        parent->setRight(c);
-        if(b != nullptr) b->setParent(parent);
-        if(c != nullptr) c->setParent(parent);
-        if(d != nullptr) d->setParent(node);
+    if(rightChild->getLeft() != nullptr) {
+        rightChild->getLeft()->setParent(node);
     }
 
+    rightChild->setParent(node->getParent());
+
+    if(node->getParent() == nullptr) { // node is root
+        BinarySearchTree<Key, Value>::root_ = rightChild;
+    } else if(node == node->getParent()->getLeft()) {
+        node->getParent()->setLeft(rightChild);
+    } else {
+        node->getParent()->setRight(rightChild);
+    }
+
+    rightChild->setLeft(node);
+    node->setParent(rightChild);
+
+    // Update balance factors
+    node->setBalance(node->getBalance() - 1 - std::max((int)rightChild->getBalance(), 0));
+    rightChild->setBalance(rightChild->getBalance() - 1 + std::min((int)node->getBalance(), 0));
 }
-
 template<class Key, class Value>
 void AVLTree<Key, Value>::insert (const std::pair<const Key, Value> &new_item)
 {
