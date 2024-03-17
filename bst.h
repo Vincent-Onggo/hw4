@@ -633,7 +633,7 @@ void BinarySearchTree<Key, Value>::clearNode(Node<Key, Value> *node) {
     }
 }
 
-/**`
+/**
 * A helper function to find the smallest node in the tree.
 */
 template<typename Key, typename Value>
