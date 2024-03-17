@@ -53,10 +53,10 @@ protected:
 */
 template<typename Key, typename Value>
 Node<Key, Value>::Node(const Key& key, const Value& value, Node<Key, Value>* parent) :
-    item_(key, value),
-    parent_(parent),
-    left_(NULL),
-    right_(NULL)
+        item_(key, value),
+        parent_(parent),
+        left_(NULL),
+        right_(NULL)
 {
 
 }
@@ -275,7 +275,7 @@ BinarySearchTree<Key, Value>::iterator::iterator(Node<Key,Value> *ptr)
 * A default constructor that initializes the iterator to NULL.
 */
 template<class Key, class Value>
-BinarySearchTree<Key, Value>::iterator::iterator() 
+BinarySearchTree<Key, Value>::iterator::iterator()
 {
     // TODO
     current_ = nullptr;
@@ -309,7 +309,7 @@ BinarySearchTree<Key, Value>::iterator::operator->() const
 template<class Key, class Value>
 bool
 BinarySearchTree<Key, Value>::iterator::operator==(
-    const BinarySearchTree<Key, Value>::iterator& rhs) const
+        const BinarySearchTree<Key, Value>::iterator& rhs) const
 {
     //
     return current_ == rhs.current_;
@@ -322,7 +322,7 @@ BinarySearchTree<Key, Value>::iterator::operator==(
 template<class Key, class Value>
 bool
 BinarySearchTree<Key, Value>::iterator::operator!=(
-    const BinarySearchTree<Key, Value>::iterator& rhs) const
+        const BinarySearchTree<Key, Value>::iterator& rhs) const
 {
     // TODO
     return current_ != rhs.current_;
@@ -373,7 +373,7 @@ Begin implementations for the BinarySearchTree class.
 * Default constructor for a BinarySearchTree, which sets the root to NULL.
 */
 template<class Key, class Value>
-BinarySearchTree<Key, Value>::BinarySearchTree() 
+BinarySearchTree<Key, Value>::BinarySearchTree()
 {
     // TODO
     root_ = nullptr;
@@ -459,7 +459,7 @@ Value const & BinarySearchTree<Key, Value>::operator[](const Key& key) const
 /**
 * An insert method to insert into a Binary Search Tree.
 * The tree will not remain balanced when inserting.
-* Recall: If key is already in the tree, you should 
+* Recall: If key is already in the tree, you should
 * overwrite the current value with the updated value.
 */
 template<class Key, class Value>
@@ -645,9 +645,8 @@ BinarySearchTree<Key, Value>::getSmallestNode() const
     if(root_ == nullptr){
         return nullptr;
     }
-
-    Node<Key, Value>* curr;
-    while(curr->getLeft() != nullptr and curr != nullptr){
+    Node<Key, Value>* curr = root_;
+    while (curr->getLeft() != nullptr) {
         curr = curr->getLeft();
     }
     return curr;
