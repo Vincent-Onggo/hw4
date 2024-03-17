@@ -141,8 +141,7 @@ protected:
     void insertFix(AVLNode<Key, Value>* parent, AVLNode<Key, Value>* node);
     void rotateRight(AVLNode<Key, Value>* node);
     void rotateLeft(AVLNode<Key, Value>* node);
-private:
-    AVLNode<Key, Value>* root_ = nullptr;
+
 
 };
 
@@ -237,10 +236,10 @@ void AVLTree<Key, Value>::insert (const std::pair<const Key, Value> &new_item)
 {
     // TODO
     AVLNode<Key, Value>* newNode = new AVLNode<Key, Value>(new_item.first, new_item.second, nullptr); // balance is default to zero
-    if(this->root_ == nullptr) {  // when tree is empty
-        this->root_ = newNode;
+    if(BinarySearchTree<Key, Value>::root_ == nullptr) {  // when tree is empty
+        BinarySearchTree<Key, Value>:: root_ = newNode;
     }else{
-        AVLNode<Key, Value>* curr = this->root_;
+        AVLNode<Key, Value>* curr = static_cast<AVLNode<Key, Value>*>(BinarySearchTree<Key, Value>::root_);
         AVLNode<Key, Value>* parent = nullptr;
         while(curr != nullptr){
             parent = curr;

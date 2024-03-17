@@ -6,7 +6,6 @@
 
 #ifndef PRINT_BST_H
 #define PRINT_BST_H
-#include "bst.h"
 
 // BST pretty-print function
 // Version 1.2
