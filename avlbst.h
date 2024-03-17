@@ -137,7 +137,7 @@ protected:
     virtual void nodeSwap( AVLNode<Key,Value>* n1, AVLNode<Key,Value>* n2);
 
     // Add helper functions here
-    int getHeight(AVLNode<Key, Value>* root) const;
+    int getHeight(AVLNode<Key, Value>* root);
     void insertFix(AVLNode<Key, Value>* parent, AVLNode<Key, Value>* node);
     void rotateRight(AVLNode<Key, Value>* node);
     void rotateLeft(AVLNode<Key, Value>* node);
@@ -150,7 +150,7 @@ protected:
  * overwrite the current value with the updated value.
  */
 template<class Key, class Value>
-int AVLTree<Key, Value>::getHeight(AVLNode<Key, Value>* root) const{
+int AVLTree<Key, Value>::getHeight(AVLNode<Key, Value>* root){
     if(root == nullptr){
         return 0;
     }
@@ -171,10 +171,12 @@ void AVLTree<Key, Value>::rotateRight(AVLNode<Key, Value> *node) {
     }
     AVLNode<Key, Value>* gParent = parent->getParent();
     if(gParent == nullptr or gParent->getLeft() != parent){
+
         return;
     }
 
     // set child pointers
+
     AVLNode<Key, Value>* a = node->getLeft();
     AVLNode<Key, Value>* b = node->getRight();
     AVLNode<Key, Value>* c = parent->getRight();
@@ -259,11 +261,11 @@ void AVLTree<Key, Value>::insert (const std::pair<const Key, Value> &new_item)
             parent->setRight(newNode);
         }
         newNode->setParent(parent);
-        // balancing
+//         balancing
         if(abs(parent->getBalance()) == 1){
             parent->setBalance(0);
-        }else{
-            parent->setBalance(getHeight(newNode->getLeft()) - getHeight(newNode->getRight()));
+        }else if(parent->getBalance() == 0){
+            parent->setBalance(getHeight(parent->getRight()) - getHeight(parent->getLeft()));
             insertFix(parent, newNode);
         }
     }
@@ -282,10 +284,10 @@ void  AVLTree<Key, Value>::insertFix(AVLNode<Key, Value>* parent, AVLNode<Key, V
             insertFix(gParent, parent);
         }else if(gParent->getBalance() == -2){
             if(parent->getLeft() == node){ // if zig zig
-                rotateRight(gParent);
+                rotateRight(node);
                 parent->setBalance(0);
                 gParent->setBalance(0);
-            }else{
+            }else{ // zig zag
                 rotateLeft(parent);
                 rotateRight(gParent);
                 if(node->getBalance() == -1){
