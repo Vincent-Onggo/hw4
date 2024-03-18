@@ -325,24 +325,24 @@ void  AVLTree<Key, Value>::insertFix(AVLNode<Key, Value>* parent, AVLNode<Key, V
             insertFix(gParent, parent);
         }else if(gParent->getBalance() == -2){
             if(parent->getLeft() == node){ // if zig zig
-                rotateRight(gParent);
-                parent->setBalance(0);
-                gParent->setBalance(0);
+                rotateRight(node);
+                parent->setBalance(getHeight(parent->getRight()) - getHeight(parent->getLeft()));
+                gParent->setBalance(getHeight(gParent->getRight()) - getHeight(gParent->getLeft()));
             }else{ // zig zag
-                rotateLeft(parent);
-                rotateRight(gParent);
+                rotateLeft(node);
+                rotateRight(parent);
                 if(node->getBalance() == -1){
-                    parent->setBalance(0);
+                    parent->setBalance(getHeight(parent->getRight()) - getHeight(parent->getLeft()));
                     gParent->updateBalance(1);
-                    node->setBalance(0);
+                    node->setBalance(getHeight(node->getRight()) - getHeight(node->getLeft()));
                 }else if(node->getBalance() == 0){
-                    parent->setBalance(0);
-                    gParent->setBalance(0);
-                    node->setBalance(0);
+                    parent->setBalance(getHeight(parent->getRight()) - getHeight(parent->getLeft()));
+                    gParent->setBalance(getHeight(gParent->getRight()) - getHeight(gParent->getLeft()));
+                    node->setBalance(getHeight(node->getRight()) - getHeight(node->getLeft()));
                 }else if(node->getBalance() == 1){
-                    parent->setBalance(-1);
-                    gParent->setBalance(0);
-                    node->setBalance(0);
+                    parent->setBalance(getHeight(parent->getRight()) - getHeight(parent->getLeft()));
+                    gParent->setBalance(getHeight(gParent->getRight()) - getHeight(gParent->getLeft()));
+                    node->setBalance(getHeight(node->getRight()) - getHeight(node->getLeft()));
                 }
             }
 ;        }
@@ -355,26 +355,26 @@ void  AVLTree<Key, Value>::insertFix(AVLNode<Key, Value>* parent, AVLNode<Key, V
         }else if(gParent->getBalance() == 2){
             if(parent->getRight() == node){ // if zig zig
                 rotateLeft(node);
-                parent->setBalance(0);
-                gParent->setBalance(0);
+                parent->setBalance(getHeight(parent->getRight()) - getHeight(parent->getLeft()));
+                gParent->setBalance(getHeight(gParent->getRight()) - getHeight(gParent->getLeft()));
             }else{ // zig zag
                 rotateRight(node);
                 rotateLeft(parent);
                 if(node->getBalance() == 1){
                     parent->setBalance(0);
-                    gParent->updateBalance(-1);
-                    node->setBalance(0);
+                    gParent->setBalance(getHeight(gParent->getRight()) - getHeight(gParent->getLeft()));
+                    node->setBalance(getHeight(node->getRight()) - getHeight(node->getLeft()));
                 }else if(node->getBalance() == 0){
-                    parent->setBalance(0);
-                    gParent->setBalance(0);
-                    node->setBalance(0);
+                    parent->setBalance(getHeight(parent->getRight()) - getHeight(parent->getLeft()));
+                    gParent->setBalance(getHeight(gParent->getRight()) - getHeight(gParent->getLeft()));
+                    node->setBalance(getHeight(node->getRight()) - getHeight(node->getLeft()));
                 }else if(node->getBalance() == -1){
-                    parent->setBalance(1);
-                    gParent->setBalance(0);
-                    node->setBalance(0);
+                    parent->setBalance(getHeight(parent->getRight()) - getHeight(parent->getLeft()));
+                    gParent->setBalance(getHeight(gParent->getRight()) - getHeight(gParent->getLeft()));
+                    node->setBalance(getHeight(node->getRight()) - getHeight(node->getLeft()));
                 }
             }
-            ;        }
+        }
     }
 
 }
