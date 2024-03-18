@@ -325,12 +325,12 @@ void  AVLTree<Key, Value>::insertFix(AVLNode<Key, Value>* parent, AVLNode<Key, V
             insertFix(gParent, parent);
         }else if(gParent->getBalance() == -2){
             if(parent->getLeft() == node){ // if zig zig
-                rotateRight(node);
+                rotateRight(gParent);
                 parent->setBalance(0);
                 gParent->setBalance(0);
             }else{ // zig zag
-                rotateLeft(node);
-                rotateRight(parent);
+                rotateLeft(parent);
+                rotateRight(gParent);
                 if(node->getBalance() == -1){
                     parent->setBalance(0);
                     gParent->updateBalance(1);
