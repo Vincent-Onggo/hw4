@@ -623,10 +623,7 @@ void BinarySearchTree<Key, Value>::clear()
 }
 template<typename Key, typename Value>
 void BinarySearchTree<Key, Value>::clearNode(Node<Key, Value> *node) {
-    if(node == root_){
-        delete node;
-        root_ = nullptr;
-    }else if(node != nullptr){
+    if(node != nullptr){
         clearNode(node->getLeft());
         clearNode(node->getRight());
         delete node;
