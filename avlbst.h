@@ -267,23 +267,24 @@ int AVLTree<Key, Value>::height(AVLNode<Key, Value>* node) {
  * Recall: The writeup specifies that if a node has 2 children you
  * should swap with the predecessor and then remove.
  */
+
 template<class Key, class Value>
 void AVLTree<Key, Value>::remove(const Key& key) {
     AVLNode<Key, Value>* nodeToRemove = static_cast<AVLNode<Key, Value>*>(this->internalFind(key));
-    if (nodeToRemove == nullptr) return;
+    if (nodeToRemove == nullptr) return; // Key not found
     if (this->root_ == nullptr) return;
+
     AVLNode<Key, Value>* balancePoint = nullptr;
 
     if (nodeToRemove->getLeft() != nullptr && nodeToRemove->getRight() != nullptr) {
         // Node has two children
         AVLNode<Key, Value>* predecessor = static_cast<AVLNode<Key, Value>*>(this->predecessor(nodeToRemove));
         nodeSwap(nodeToRemove, predecessor);
-        balancePoint = predecessor->getParent();
-    } else {
-        balancePoint = nodeToRemove->getParent();
+        nodeToRemove = predecessor; // Now we need to remove the predecessor node
     }
 
-    // Now nodeToRemove has at most one child
+    balancePoint = nodeToRemove->getParent();
+
     AVLNode<Key, Value>* child = nodeToRemove->getLeft() != nullptr ? nodeToRemove->getLeft() : nodeToRemove->getRight();
     if (child != nullptr) {
         child->setParent(nodeToRemove->getParent());
@@ -300,6 +301,7 @@ void AVLTree<Key, Value>::remove(const Key& key) {
     delete nodeToRemove;
     removeFix(balancePoint);
 }
+
 
 template<class Key, class Value>
 void AVLTree<Key, Value>::removeFix(AVLNode<Key, Value>* node) {
