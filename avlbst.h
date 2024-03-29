@@ -267,11 +267,39 @@ int AVLTree<Key, Value>::height(AVLNode<Key, Value>* node) {
  * should swap with the predecessor and then remove.
  */
 template<class Key, class Value>
-void AVLTree<Key, Value>:: remove(const Key& key)
-{
+void AVLTree<Key, Value>:: remove(const Key& key) {
     // TODO
-    AVLNode<Key, Value>* toRemove = static_cast<AVLNode<Key, Value>*>(BinarySearchTree<Key, Value>::internalFind(key));
+    AVLNode<Key, Value>* node = static_cast<AVLNode<Key, Value>*>(this->internalFind(key));
+    if (node == nullptr) {
+        return;
+    }
 
+    AVLNode<Key, Value>* toDelete = node;
+
+    // Node has two children
+    if (node->getLeft() != nullptr && node->getRight() != nullptr) {
+        toDelete = static_cast<AVLNode<Key, Value>*>(this->predecessor(node));
+        nodeSwap(node, toDelete);
+    }
+
+    AVLNode<Key, Value>* child = toDelete->getLeft() != nullptr ? toDelete->getLeft() : toDelete->getRight();
+
+    if (child != nullptr) {
+        child->setParent(toDelete->getParent()); // Connect child with parent
+    }
+
+    if (toDelete->getParent() == nullptr) {
+        this->root_ = child;
+    } else {
+        if (toDelete == toDelete->getParent()->getLeft()) {
+            toDelete->getParent()->setLeft(child);
+        } else {
+            toDelete->getParent()->setRight(child);
+        }
+        insertFix(toDelete->getParent());
+    }
+
+    delete toDelete;
 }
 
 template<class Key, class Value>
