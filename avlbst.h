@@ -285,7 +285,12 @@ void AVLTree<Key, Value>::remove(const Key& key) {
         }
 
     } else {
-        balancePoint = nodeToRemove->getParent();
+        if(nodeToRemove->getParent() == nullptr){
+            balancePoint = nodeToRemove;
+        }else{
+            balancePoint = nodeToRemove->getParent();
+
+        }
     }
 
     // Now nodeToRemove has at most one child
