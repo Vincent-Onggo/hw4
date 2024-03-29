@@ -47,14 +47,16 @@ int main(int argc, char *argv[])
 //    cout << "Erasing b" << endl;
 //    at.remove('b');
 
-    AVLTree<int, double> bst;
-    bst.insert(std::make_pair(2, 1.0));
-    bst.insert(std::make_pair(1, 1.0));
-    bst.insert(std::make_pair(3, 1.0));
+    AVLTree<int, int> bst;
+    bst.insert(std::make_pair(1, -50));
+    bst.insert(std::make_pair(2, 8));
+    bst.insert(std::make_pair(3, 0));
+    bst.insert(std::make_pair(10, 0));
+    bst.insert(std::make_pair(15, 0));
+
     bst.print();
+
     bst.remove(2);
-
     bst.print();
-
     return 0;
 }

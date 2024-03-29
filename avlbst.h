@@ -276,9 +276,15 @@ void AVLTree<Key, Value>::remove(const Key& key) {
 
     if (nodeToRemove->getLeft() != nullptr && nodeToRemove->getRight() != nullptr) {
         // Node has two children
+        std::cout << "GAYYY\n";
         AVLNode<Key, Value>* predecessor = static_cast<AVLNode<Key, Value>*>(this->predecessor(nodeToRemove));
         nodeSwap(nodeToRemove, predecessor);
-        balancePoint = predecessor->getParent();
+        if(predecessor->getParent() == nullptr){
+            balancePoint = predecessor;
+        }else{
+            balancePoint = predecessor->getParent();
+        }
+
     } else {
         balancePoint = nodeToRemove->getParent();
     }
@@ -336,7 +342,6 @@ void AVLTree<Key, Value>::removeFix(AVLNode<Key, Value>* node) {
     if (node == nullptr && this->root_ && this->root_->getParent()) {
         this->root_ = static_cast<AVLNode<Key, Value>*>(this->root_->getParent());
     }
-    insertFix(node);
 }
 
 
