@@ -304,27 +304,40 @@ void AVLTree<Key, Value>::remove(const Key& key) {
 template<class Key, class Value>
 void AVLTree<Key, Value>::removeFix(AVLNode<Key, Value>* node) {
     while (node != nullptr) {
-        node->setBalance(calcBalance(node));
+        int balance = calcBalance(node);
+        int leftBalance = calcBalance(node->getLeft());
+        int rightBalance = calcBalance(node->getRight());
 
-        if (node->getBalance() > 1) { // Left heavy
-            if (calcBalance(node->getLeft()) < 0) { // Left-Right case
+        if (balance > 1) {  // Left heavy
+            if (leftBalance >= 0) {
+                // Left-Left case
+                node = rotateRight(node);
+            } else {
+                // Left-Right case
                 node->setLeft(rotateLeft(node->getLeft()));
+                node = rotateRight(node);
             }
-            node = rotateRight(node); // Left-Left case
-        } else if (node->getBalance() < -1) { // Right heavy
-            if (calcBalance(node->getRight()) > 0) { // Right-Left case
+        } else if (balance < -1) {  // Right heavy
+            if (rightBalance <= 0) {
+                // Right-Right case
+                node = rotateLeft(node);
+            } else {
+                // Right-Left case
                 node->setRight(rotateRight(node->getRight()));
+                node = rotateLeft(node);
             }
-            node = rotateLeft(node); // Right-Right case
         }
 
-        if (node->getParent() == nullptr) {
-            this->root_ = node;
+        if (node != nullptr) {
+            node = node->getParent();
         }
+    }
 
-        node = node->getParent();
+    if (node == nullptr && this->root_ && this->root_->getParent()) {
+        this->root_ = static_cast<AVLNode<Key, Value>*>(this->root_->getParent());
     }
 }
+
 
 
 
