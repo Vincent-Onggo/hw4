@@ -283,13 +283,17 @@ void AVLTree<Key, Value>::remove(const Key& key) {
         }else{
             balancePoint = predecessor->getParent();
         }
-
     } else {
         balancePoint = nodeToRemove->getParent();
     }
 
     // Now nodeToRemove has at most one child
-    AVLNode<Key, Value>* child = nodeToRemove->getLeft() != nullptr ? nodeToRemove->getLeft() : nodeToRemove->getRight();
+    AVLNode<Key, Value>* child;
+    if(nodeToRemove->getLeft() != nullptr){
+        child = nodeToRemove->getLeft();
+    }else{
+        child = nodeToRemove->getRight();
+    }
     if (child != nullptr) {
         child->setParent(nodeToRemove->getParent());
     }
@@ -301,7 +305,7 @@ void AVLTree<Key, Value>::remove(const Key& key) {
     } else {
         nodeToRemove->getParent()->setRight(child);
     }
-
+    removeFix(nodeToRemove);
     delete nodeToRemove;
     removeFix(balancePoint);
 }
