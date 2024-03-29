@@ -271,7 +271,7 @@ template<class Key, class Value>
 void AVLTree<Key, Value>::remove(const Key& key) {
     AVLNode<Key, Value>* nodeToRemove = static_cast<AVLNode<Key, Value>*>(this->internalFind(key));
     if (nodeToRemove == nullptr) return;
-
+    if (this->root_ == nullptr) return;
     AVLNode<Key, Value>* balancePoint = nullptr;
 
     if (nodeToRemove->getLeft() != nullptr && nodeToRemove->getRight() != nullptr) {
