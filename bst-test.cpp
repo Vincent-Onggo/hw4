@@ -52,6 +52,7 @@ int main(int argc, char *argv[])
     testTree.insert(std::make_pair(2, 9));
     testTree.insert(std::make_pair(0, 8));
     testTree.insert(std::make_pair(1, 159));
+    testTree.remove(1);
 
     testTree.print();
 
