@@ -336,6 +336,7 @@ void AVLTree<Key, Value>::removeFix(AVLNode<Key, Value>* node) {
     if (node == nullptr && this->root_ && this->root_->getParent()) {
         this->root_ = static_cast<AVLNode<Key, Value>*>(this->root_->getParent());
     }
+    insertFix(node);
 }
 
 
